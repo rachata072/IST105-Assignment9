@@ -1,0 +1,24 @@
+<html>
+<head><title>DNA Center Device Interfaces</title></head>
+<body>
+<h2>Device Interfaces for {{ device_ip }}</h2>
+{% if interfaces %}
+    <table border="1" cellpadding="5">
+        <tr><th>Interface</th><th>Status</th><th>VLAN</th><th>Speed</th></tr>
+        {% for intf in interfaces %}
+        <tr>
+            <td>{{ intf.portName }}</td>
+            <td>{{ intf.status }}</td>
+            <td>{{ intf.vlanId }}</td>
+            <td>{{ intf.speed }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% elif error %}
+    <p style="color:red;">Error: {{ error }}</p>
+{% else %}
+    <p>No interfaces found.</p>
+{% endif %}
+<a href="/devices/">Back to Devices</a>
+</body>
+</html> 

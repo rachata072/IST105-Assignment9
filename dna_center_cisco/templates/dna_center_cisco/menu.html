@@ -1,0 +1,68 @@
+<html>
+<head><title>Cisco DNA Center Network Automation</title></head>
+<body>
+<h2>Cisco DNA Center Network Automation</h2>
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <p>Menu:</p>
+    <pre>
+1. Authenticate & Show Token
+2. List Network Devices
+3. Show Device Interfaces
+4. Exit
+    </pre>
+    <label for="choice">Select option (1-4):</label>
+    <input type="text" name="choice" id="choice" required autofocus>
+    <input type="submit" value="Submit">
+</form>
+
+{% if show_ip_prompt %}
+    <form method="get">
+        <label for="device_ip">Enter device IP address:</label>
+        <input type="text" name="device_ip" id="device_ip" required autofocus>
+        <input type="submit" value="Get Interfaces">
+    </form>
+{% endif %}
+
+{% if output %}
+    <hr>
+    <div style="white-space: pre-wrap;">
+    {% if output.interfaces %}
+        <h3>Device Interfaces for {{ output.device_ip }}</h3>
+        <table border="1" cellpadding="5">
+            <tr><th>Interface</th><th>Status</th><th>VLAN</th><th>Speed</th></tr>
+            {% for intf in output.interfaces %}
+            <tr>
+                <td>{{ intf.portName }}</td>
+                <td>{{ intf.status }}</td>
+                <td>{{ intf.vlanId }}</td>
+                <td>{{ intf.speed }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% elif output.0 and output.0.hostname %}
+        <h3>Network Devices</h3>
+        <table border="1" cellpadding="5">
+            <tr><th>Hostname</th><th>IP Address</th><th>Platform</th><th>Status</th></tr>
+            {% for device in output %}
+            <tr>
+                <td>{{ device.hostname }}</td>
+                <td>{{ device.managementIpAddress }}</td>
+                <td>{{ device.platformId }}</td>
+                <td>{{ device.reachabilityStatus }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <pre>{{ output }}</pre>
+    {% endif %}
+    </div>
+{% endif %}
+
+{% if error %}
+    <hr>
+    <div style="color:red; white-space: pre-wrap;">{{ error }}</div>
+{% endif %}
+</body>
+</html> 

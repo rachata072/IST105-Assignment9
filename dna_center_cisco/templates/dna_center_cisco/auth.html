@@ -1,0 +1,13 @@
+<html>
+<head><title>DNA Center Authentication</title></head>
+<body>
+<h2>DNA Center Authentication</h2>
+{% if token %}
+    <p><strong>Token:</strong></p>
+    <pre>{{ token }}</pre>
+{% elif error %}
+    <p style="color:red;">Error: {{ error }}</p>
+{% endif %}
+<a href="/devices/">View Devices</a>
+</body>
+</html> 

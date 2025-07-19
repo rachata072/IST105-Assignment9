@@ -1,0 +1,25 @@
+<html>
+<head><title>DNA Center Devices</title></head>
+<body>
+<h2>Network Devices</h2>
+{% if devices %}
+    <table border="1" cellpadding="5">
+        <tr><th>Hostname</th><th>IP Address</th><th>Platform</th><th>Status</th><th>Interfaces</th></tr>
+        {% for device in devices %}
+        <tr>
+            <td>{{ device.hostname }}</td>
+            <td>{{ device.managementIpAddress }}</td>
+            <td>{{ device.platformId }}</td>
+            <td>{{ device.reachabilityStatus }}</td>
+            <td><a href="/interfaces/?ip={{ device.managementIpAddress }}">View Interfaces</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% elif error %}
+    <p style="color:red;">Error: {{ error }}</p>
+{% else %}
+    <p>No devices found.</p>
+{% endif %}
+<a href="/auth/">Back to Auth</a>
+</body>
+</html> 
